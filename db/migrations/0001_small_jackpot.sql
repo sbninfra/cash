@@ -1,0 +1,1 @@
+ALTER TABLE "trips" ALTER COLUMN "banner_image" SET DATA TYPE varchar;
