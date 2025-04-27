@@ -2,6 +2,7 @@ import Image from "next/image";
 import { insertHotel } from "../../lib/helper";
 import Link from "next/link";
 import { HeadsetIcon, ShieldCheckIcon, StarIcon } from "lucide-react";
+import { Testimonial } from "@/components/testrimonial";
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
       <HeroSection />
       <Packages />
       <TravelWithUs />
+      <Testimonial />
       <Link href="/admin">Admin</Link>
       <div className=" h-60"></div>
     </div>
