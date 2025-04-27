@@ -3,7 +3,7 @@ import { TripTable } from "./tripTable";
 
 const Page = async () => {
   const allTripData = await getAllTrips();
-  console.log(allTripData);
+  // console.log(allTripData);
   return (
     <div className=" flex flex-col gap-3">
       <p className="text-3xl">Admin Page</p>

@@ -11,6 +11,7 @@ export function NavBarAdmin() {
       {navTabs.map((item) => {
         return (
           <Link
+            key={item.href}
             className={cn(
               " border border-gray-300 rounded py-1.5 font-medium text-sm px-6 hover:bg-gray-100 cursor-pointer",
               pathname === item.href && "bg-green-300"

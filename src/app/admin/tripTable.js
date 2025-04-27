@@ -243,7 +243,7 @@ export function TripTable({ tripData }) {
               <IsVisibleToggle tripId={item.id} currentState={item.isVisible} />
             </TableCell>
             <TableCell>
-              <Link href={`/admin/trip/${item.id}`}>
+              <Link href={`/admin/trip?id=${item.id}`}>
                 <PencilIcon
                   className=" hover:scale-125 duration-200"
                   size={20}
