@@ -1,4 +1,6 @@
 "use client";
+import Input from "@/conponents/input";
+import Textarea from "@/conponents/textArea";
 import { Switch } from "antd";
 import { PlusIcon, XIcon } from "lucide-react";
 import React, { useEffect, useRef } from "react";
@@ -61,33 +63,6 @@ const TripDetails = ({ tripData }) => {
 
 export default TripDetails;
 
-function Input({ title, placeholder, value, onChange }) {
-  return (
-    <div className=" w-full flex flex-col gap-1.5">
-      <p>{title}</p>
-      <input
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        className="border py-1.5 px-2 rounded"
-      />
-    </div>
-  );
-}
-function Textarea({ title, placeholder, value, onChange }) {
-  return (
-    <div className=" w-full flex flex-col gap-1.5">
-      <p>{title}</p>
-      <textarea
-        placeholder={placeholder}
-        value={value}
-        rows={4}
-        onChange={onChange}
-        className="border py-1.5 px-2 rounded"
-      />
-    </div>
-  );
-}
 function InputArray({ title, placeholder, value, onChangehandler }) {
   const [text, setText] = React.useState("");
 

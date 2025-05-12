@@ -1,5 +1,3 @@
-import Image from "next/image";
-import { insertHotel } from "../../lib/helper";
 import Link from "next/link";
 import { HeadsetIcon, ShieldCheckIcon, StarIcon } from "lucide-react";
 import { Testimonial } from "@/components/testrimonial";
@@ -113,7 +111,10 @@ function Packages() {
 
 function PackageCard({ title, description, image, date }) {
   return (
-    <div className="border bg-white rounded-2xl overflow-hidden shadow-md flex flex-col sm:flex-row h-full transition hover:shadow-lg ">
+    <Link
+      href={"/trip"}
+      className="border bg-white rounded-2xl overflow-hidden shadow-md flex flex-col sm:flex-row h-full transition hover:shadow-lg "
+    >
       {/* Image Section */}
       <div className="w-full sm:w-1/2 h-56 sm:h-auto max-h-60">
         <img
@@ -133,7 +134,7 @@ function PackageCard({ title, description, image, date }) {
         </div>
         <p className=" text-primary font-semibold mt-4">{date}</p>
       </div>
-    </div>
+    </Link>
   );
 }
 

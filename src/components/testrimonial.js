@@ -66,7 +66,7 @@ export function Testimonial() {
         {data.map((item, index) => (
           <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
             <div className="p-1">
-              <Card>
+              <Card className={" py-4"}>
                 <CardContent className="flex flex-col px-4">
                   <div className=" flex justify-between gap-4 items-center">
                     <p className=" font-semibold text-lg">{item.name}</p>
