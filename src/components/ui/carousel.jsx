@@ -108,13 +108,14 @@ function Carousel({
   );
 }
 
-function CarouselContent({ className, ...props }) {
+function CarouselContent({ wrapperClassName = "", className, ...props }) {
   const { carouselRef, orientation } = useCarousel();
 
   return (
     <div
       ref={carouselRef}
-      className="overflow-hidden"
+      // className="overflow-hidden"
+      className={cn("overflow-hidden", wrapperClassName)}
       data-slot="carousel-content"
     >
       <div
@@ -163,8 +164,8 @@ function CarouselPrevious({
       className={cn(
         "absolute size-8 rounded-full",
         orientation === "horizontal"
-          ? "top-1/2 left-2 -translate-y-1/2"
-          : "-top-12 left-2 -translate-x-1/2 rotate-90",
+          ? " -bottom-10 md:top-1/2 right-16 md:left-2 md:-translate-y-1/2"
+          : "-top-12 left-4 md:left-2 -translate-x-1/2 rotate-90",
         className
       )}
       disabled={!canScrollPrev}
@@ -193,7 +194,7 @@ function CarouselNext({
       className={cn(
         "absolute size-8 rounded-full",
         orientation === "horizontal"
-          ? "top-1/2 right-2 -translate-y-1/2"
+          ? " -bottom-10 right-4 md:top-1/2 md:right-2 md:-translate-y-1/2"
           : "-bottom-12 left-2 -translate-x-1/2 rotate-90",
         className
       )}

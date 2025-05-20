@@ -27,7 +27,7 @@ export default Page;
 
 function TripDetails() {
   return (
-    <div className=" w-full max-w-7xl px-4 mx-auto flex flex-col md:flex-row gap-12">
+    <div className=" w-full max-w-7xl px-5 mx-auto flex flex-col md:flex-row gap-12">
       <div className="flex flex-col gap-8">
         <HeadingDescription />
         <HeadingList />
@@ -113,7 +113,7 @@ function TripCard({ idx }) {
 
 function HotelSection() {
   return (
-    <div className=" flex w-full max-w-7xl px-4 mx-auto flex-col gap-4">
+    <div className=" flex w-full max-w-7xl px-5 mx-auto flex-col gap-4">
       <h4 className=" text-4xl font-semibold">Hotels</h4>
       <div className=" flex flex-wrap gap-8">
         <HotelCard />

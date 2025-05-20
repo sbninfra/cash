@@ -21,18 +21,13 @@ import TextAlign from "@tiptap/extension-text-align";
 import { Toggle } from "@/components/ui/toggle";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import Input from "@/conponents/input";
+import { SelectBlogCategories } from "@/conponents/admin/selectBlogCategories";
+import TitleDatepicker from "@/conponents/admin/datePicker";
 
 const TiptapEditor = () => {
   const editor = useEditor({
     extensions: [
-      // StarterKit.configure({
-      //   heading: {
-      //     levels: [1, 2],
-      //   },
-      //   bulletList: true,
-      //   orderedList: true,
-      //   listItem: true,
-      // }),
       StarterKit.configure({
         heading: true,
         bulletList: true,
@@ -64,8 +59,20 @@ const TiptapEditor = () => {
   if (!editor) return null;
 
   return (
-    <div className="space-y-4 max-w-7xl mx-auto w-full">
-      <div className="flex flex-wrap gap-2 rounded-lg p-2 bg-muted">
+    <div className=" max-w-7xl mx-auto w-full">
+      <Input
+        title={"Blog Title"}
+        placeholder="Enter Blog Title"
+        className="mb-4 "
+        onChange={(e) => editor.commands.setTitle(e.target.value)}
+      />
+      <div className=" w-full flex gap-6 flex-col sm:flex-row">
+        <SelectBlogCategories />
+        <TitleDatepicker title={"Published Date"} className={"mb-4"} />
+      </div>
+      {/* date and category */}
+
+      <div className=" my-6 flex flex-wrap gap-2 rounded-lg p-2 bg-muted">
         <Toggle
           pressed={editor.isActive("bold")}
           onPressedChange={() => editor.chain().focus().toggleBold().run()}
@@ -165,7 +172,7 @@ const TiptapEditor = () => {
         </Toggle>
       </div>
 
-      <div className="p-4 border-2 rounded-md bg-white">
+      <div className="p-4 border-2 mb-4 rounded-md bg-white">
         <EditorContent className=" [&>*]:focus:outline-none" editor={editor} />
       </div>
 

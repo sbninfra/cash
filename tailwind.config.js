@@ -8,15 +8,29 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#FF6B35", // Bright Orange        Buttons, CTAs (Call to Actions), Highlights
-        secondary: "#6CA0DC", // Soft Blue          Button hover background, links, secondary CTAs
-        cream: "#FFF8F3", // Light Cream       Body background, card backgrounds
-        "secondary-cream": "#FFFCF0", // Light Cream       Body background, card backgrounds
-        darkText: "#1C1C1E", // Dark Navy           Headings, titles, bold important text
-        subText: "#4A4A4A", // Grey for subtitles   Descriptions, paragraph text, small labels
+        primary: "#FF6B35",
+        secondary: "#6CA0DC",
+        cream: "#FFF8F3",
+        "secondary-cream": "#FFFCF0",
+        darkText: "#1C1C1E",
+        subText: "#4A4A4A",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 300ms ease-out",
+        "accordion-up": "accordion-up 300ms ease-out",
       },
     },
   },
