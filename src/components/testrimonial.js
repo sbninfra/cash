@@ -15,7 +15,7 @@ export function Testimonial() {
     {
       name: "Alice Johnson",
       review:
-        "Amazing experience! The team was super supportive and delivered beyond expectations.",
+        "Amazing experience! The team was supportive and delivered beyond expectations.",
       star: 5,
     },
     {
@@ -56,17 +56,20 @@ export function Testimonial() {
     },
   ];
   return (
-    <div className="w-full py-12 bg-white  max-w-7xl px-12 mx-auto overflow-hidden">
-      <h3 className=" text-center font-semibold mb-10 text-3xl">
+    <div className="w-full py-16 bg-white  max-w-7xl px-4 mx-auto overflow-hidden">
+      <h3 className=" text-lg text-emerald-600 italic mb-2 font-medium text-center">
+        Experience worth remembering
+      </h3>
+      <h3 className=" text-center font-playfair font-semibold mb-10 text-3xl">
         What our happy clients say
       </h3>
       <Carousel
         opts={{
           align: "start",
         }}
-        className=" "
+        className=" w-full "
       >
-        <CarouselContent wrapperClassName=" overflow-visible md:overflow-hidden">
+        <CarouselContent wrapperClassName=" w-[calc(100%-86px)] mx-auto overflow-visible md:overflow-hidden">
           {data.map((item, index) => (
             <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
               <div className="p-1">

@@ -14,10 +14,10 @@ const BlogCard = ({ image, date, heading, description, blogLink }) => {
           {date}
         </div>
       </div>
-      <Link href={blogLink} className="text-3xl font-semibold">
+      <Link href={blogLink} className="text-3xl font-medium">
         {heading}
       </Link>
-      <p className="text-lg text-gray-700 mb-4">{description}</p>
+      <p className="text-lg text-gray-600 mt-3 mb-4">{description}</p>
       <Link
         href={blogLink}
         className="inline-flex gap-3 group items-center bg-green-950   transition-all hover:bg-green-900 duration-200 text-white text-lg font-medium px-6 py-3 rounded-full"

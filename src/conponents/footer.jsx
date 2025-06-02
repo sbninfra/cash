@@ -7,9 +7,10 @@ const Footer = () => {
     <div
       className=" w-full h-full relative min-h-96 pt-24 px-4 pb-4"
       style={{
-        backgroundImage: "url('/footer-bg.jpg')",
+        backgroundImage: "url('/footer-bg.png')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
+        backgroundPosition: "bottom",
       }}
     >
       <img
@@ -19,7 +20,13 @@ const Footer = () => {
       />
       <div className=" text-white w-full top-20 left-0  !z-50">
         <div className=" w-full pb-6 max-w-7xl mx-auto flex justify-between gap-4 items-center">
-          <p className=" text-4xl font-semibold">LOGO</p>
+          <Link href="/">
+            <img
+              src="/logo-white.png"
+              className="h-12 md:h-16 w-auto"
+              alt="logo"
+            />
+          </Link>
           <div className="flex justify-end gap-3 mt-6 mb-2">
             {[Instagram, Facebook].map((Icon, idx) => (
               <div

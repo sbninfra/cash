@@ -1,6 +1,13 @@
 import { cn } from "@/lib/utils";
 
-function Input({ title, placeholder, value, onChange, className }) {
+function Input({
+  title,
+  placeholder,
+  value,
+  onChange,
+  type = "text",
+  className,
+}) {
   return (
     <div className={cn(" w-full flex flex-col gap-1", className)}>
       <p className=" font-medium">{title}</p>
@@ -8,6 +15,7 @@ function Input({ title, placeholder, value, onChange, className }) {
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        type={type}
         className="border rounded-md py-1.5 px-2 bg-white"
       />
     </div>

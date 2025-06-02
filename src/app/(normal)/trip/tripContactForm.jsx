@@ -11,8 +11,8 @@ function TripContactFrom() {
   const [message, setMessage] = useState("");
   return (
     <div className=" py-6 px-4 md:px-6 rounded-2xl h-fit bg-green-50 ring-2 ring-green-700/20 w-full md:max-w-sm flex flex-col gap-4">
-      <h3 className=" text-3xl text-center font-semibold">Book Your Trip</h3>
-      <p className=" text-center">
+      <h3 className=" text-3xl text-center font-medium">Book Your Trip</h3>
+      <p className=" text-center text-gray-600">
         Travel is less about the destination and more about the memories made
         along the way.
       </p>

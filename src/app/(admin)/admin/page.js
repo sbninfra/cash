@@ -1,4 +1,5 @@
-import { getAllTrips } from "../../../lib";
+import { getAllTrips } from "../../../../lib";
+import ImageUploader from "./imageUpload";
 import { TripTable } from "./tripTable";
 
 const Page = async () => {
@@ -20,5 +21,9 @@ const Page = async () => {
 export default Page;
 
 function Seprator() {
-  return <div className=" h-0.5 rounded-xl w-full bg-gray-600"></div>;
+  return (
+    <div className=" h-0.5 rounded-xl w-full bg-gray-600">
+      <ImageUploader />
+    </div>
+  );
 }

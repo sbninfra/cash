@@ -24,7 +24,7 @@ export function TripImageCousel({ imagesArray }) {
         align: "start",
         loop: true,
       }}
-      className="w-full max-w-7xl px-2 mx-auto"
+      className="w-full max-w-7xl px-4 md:px-12 mx-auto"
     >
       <CarouselContent>
         {imagesArray.map((imgLink, index) => (

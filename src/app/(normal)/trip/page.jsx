@@ -42,8 +42,8 @@ function TripDetails() {
 function HeadingDescription() {
   return (
     <div className="space-y-4">
-      <h3 className="text-4xl font-semibold">Description</h3>
-      <p>
+      <h3 className="text-4xl font-medium">Description</h3>
+      <p className=" text-gray-600 ">
         Nestled between pristine beaches and lush green hills, this destination
         offers the perfect escape from the chaos of city life. Whether you're
         seeking adventure, cultural exploration, or simply relaxation, the
@@ -58,8 +58,8 @@ function HeadingDescription() {
 function HeadingList() {
   return (
     <div className="space-y-4">
-      <h3 className="text-4xl font-semibold">Inclusions</h3>
-      <ul className="list-disc pl-4">
+      <h3 className="text-4xl font-medium">Inclusions</h3>
+      <ul className="list-disc pl-4 text-gray-600">
         <li>Complimentary breakfast and dinner at the hotel</li>
         <li>Airport pick-up and drop-off in a private vehicle</li>
         <li>Guided city tour with entry tickets to major attractions</li>
@@ -73,8 +73,8 @@ function HeadingList() {
 function TravelPlan() {
   return (
     <div className="flex flex-col gap-6">
-      <h4 className="text-4xl font-semibold">Travel Plan</h4>
-      <p>
+      <h4 className="text-4xl font-medium">Travel Plan</h4>
+      <p className=" text-gray-600">
         Here's a quick look at your 2-day getaway plan, carefully curated to
         help you explore the best sights, enjoy local cuisine, and relax in
         style. Get ready for an unforgettable experience filled with scenic
@@ -114,7 +114,7 @@ function TripCard({ idx }) {
 function HotelSection() {
   return (
     <div className=" flex w-full max-w-7xl px-5 mx-auto flex-col gap-4">
-      <h4 className=" text-4xl font-semibold">Hotels</h4>
+      <h4 className=" text-4xl font-medium">Hotels</h4>
       <div className=" flex flex-wrap gap-8">
         <HotelCard />
         <HotelCard />

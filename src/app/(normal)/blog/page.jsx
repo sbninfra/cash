@@ -9,10 +9,10 @@ const Page = () => {
     <div>
       <HeroBG text="Blog" img={"./blog-bg.jpg"} />
       <div className=" flex flex-col justify-center items-center px-4  py-12">
-        <h1 className=" text-2xl text-center md:text-4xl font-semibold   mb-6">
+        <h1 className=" text-2xl text-center md:text-4xl font-medium   mb-6">
           Explore the World: Travel Tips, Stories, and Adventures
         </h1>
-        <p className="md:text-lg   max-w-2xl text-center mb-8">
+        <p className="md:text-lg  text-gray-600 max-w-2xl text-center mb-8">
           Discover exciting travel destinations, expert tips, and unforgettable
           experiences. Our blog takes you on a journey around the globe,
           offering valuable insights on everything from hidden gems to must-see

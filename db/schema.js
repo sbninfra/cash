@@ -6,81 +6,84 @@ import {
   uuid,
   varchar,
   primaryKey,
+  timestamp,
 } from "drizzle-orm/pg-core";
 
 export const tripTable = pgTable("trips", {
   id: uuid("id").primaryKey().defaultRandom(),
-  title: varchar("title").notNull(),
-  isFlightIncluded: boolean("is_flight_included").notNull().default(false),
+  title: varchar("title"),
+  description: varchar("description"),
+  slug: varchar("slug"),
+  dates: varchar("dates").array(),
+  isFlightIncluded: boolean("is_flight_included").default(false),
   images: varchar("images").array(),
   bannerImage: varchar("banner_image"),
   includes: varchar("includes").array(),
+  note: varchar("note").array(),
   itinary: varchar("itinary").array(),
+  itinaryDescription: varchar("itinary_description"),
   isVisible: boolean("is_visible").notNull().default(true),
-});
 
-export const hotelTable = pgTable("hotels", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  name: varchar("name").notNull(),
-  location: varchar("location"),
-  stars: integer("stars").notNull(),
-  description: varchar("description").array(),
-  image: varchar("image"),
+  //hotel details
+  hotelName: varchar("hotel_name"),
+  hotelImage: varchar("hotel_image"),
+  hotelRating: integer("hotel_rating"),
+  hotelLocation: varchar("hotel_location"),
+  hotelDescription: varchar("hotel_description"),
 });
-
-export const datesTable = pgTable(
-  "dates",
-  {
-    id: uuid("id").primaryKey().defaultRandom(),
-    month: varchar("month").notNull(),
-    dates: varchar("day").notNull(),
-    tripId: uuid("trip_id"),
-  },
-  (table) => ({
-    tripFk: foreignKey({
-      columns: [table.tripId],
-      foreignColumns: [tripTable.id],
-      name: "dates_trip_id_fkey",
-    }),
-  })
-);
 
 export const reviewsTable = pgTable(
   "reviews",
   {
     id: uuid("id").primaryKey().defaultRandom(),
-    image: varchar("image"),
-    message: varchar("message").notNull(),
+    name: varchar("name"),
+    email: varchar("email"),
     rating: integer("rating").notNull(),
-    tripId: uuid("trip_id"),
+    message: varchar("message").notNull(),
     isAdminApproved: boolean("is_admin_approved").notNull().default(false),
-  },
-  (table) => ({
-    tripFk: foreignKey({
-      columns: [table.tripId],
-      foreignColumns: [tripTable.id],
-      name: "reviews_trip_id_fkey",
-    }),
-  })
+    // tripId: uuid("trip_id"),
+  }
+  // (table) => ({
+  //   tripFk: foreignKey({
+  //     columns: [table.tripId],
+  //     foreignColumns: [tripTable.id],
+  //     name: "reviews_trip_id_fkey",
+  //   }),
+  // })
 );
 
-export const tripHotelsTable = pgTable(
-  "trip_hotels",
-  {
-    tripId: uuid("trip_id").notNull(),
-    hotelId: uuid("hotel_id").notNull(),
-  },
-  (table) => ({
-    pk: primaryKey(table.tripId, table.hotelId),
-    tripFk: foreignKey({
-      columns: [table.tripId],
-      foreignColumns: [tripTable.id],
-      name: "fk_trip_id",
-    }),
-    hotelFk: foreignKey({
-      columns: [table.hotelId],
-      foreignColumns: [hotelTable.id],
-      name: "fk_hotel_id",
-    }),
-  })
-);
+export const contactTable = pgTable("contacts", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: varchar("name"),
+  email: varchar("email"),
+  phone: varchar("phone"),
+  location: varchar("location"),
+  message: varchar("message"),
+});
+
+export const blogTable = pgTable("blog", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  title: varchar("title"),
+  metaDescription: varchar("meta_description"),
+  blogCategory: varchar("blog_category"),
+  image: varchar("image"),
+  tags: varchar("tags").array(),
+  date: varchar("date"),
+
+  // Data-> blog content
+  data: varchar("data"),
+  userImage: varchar("user_image"),
+  userName: varchar("user_name"),
+  slug: varchar("slug"),
+  isVisible: boolean("is_visible").default(true),
+});
+
+export const blogForm = pgTable("blogForm", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: varchar("name"),
+  email: varchar("email"),
+  message: varchar("message"),
+  number: varchar("number"),
+  refrenceBlogLink: varchar("refrence_blog_link"),
+  createdAt: timestamp("created_at").defaultNow(),
+});

@@ -18,7 +18,7 @@ const Page = () => {
       <HeroBG text="Each Review Matters" />
       <div className="max-w-2xl space-y-6 px-4 mx-auto w-full my-20">
         <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-3xl font-medium text-black">
             Share Your Trip Experience
           </h1>
           <p className="text-gray-500 mt-2">

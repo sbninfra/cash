@@ -1,5 +1,5 @@
 import React from "react";
-import { getTripById } from "../../../../lib";
+import { getTripById } from "../../../../../lib";
 import TripDetails from "./tripDetails";
 
 const Page = async ({ params, searchParams }) => {

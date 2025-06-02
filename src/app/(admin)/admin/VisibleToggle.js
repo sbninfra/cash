@@ -1,6 +1,6 @@
 "use client";
 import { Switch } from "@/components/ui/switch";
-import { toggleVisiblity } from "../../../lib/tripHelper";
+import { toggleVisiblity } from "../../../../lib/tripHelper";
 import { useState } from "react";
 // import { toggleVisiblity } from "../../../lib/tripHelper";
 
