@@ -7,6 +7,7 @@ import {
   varchar,
   primaryKey,
   timestamp,
+  jsonb,
 } from "drizzle-orm/pg-core";
 
 export const tripTable = pgTable("trips", {
@@ -25,32 +26,23 @@ export const tripTable = pgTable("trips", {
   isVisible: boolean("is_visible").notNull().default(true),
 
   //hotel details
-  hotelName: varchar("hotel_name"),
-  hotelImage: varchar("hotel_image"),
-  hotelRating: integer("hotel_rating"),
-  hotelLocation: varchar("hotel_location"),
-  hotelDescription: varchar("hotel_description"),
+  // hotelName: varchar("hotel_name"),
+  // hotelImage: varchar("hotel_image"),
+  // hotelRating: integer("hotel_rating"),
+  // hotelLocation: varchar("hotel_location"),
+  // hotelDescription: varchar("hotel_description"),
+
+  hotels: jsonb("hotels").array(),
 });
 
-export const reviewsTable = pgTable(
-  "reviews",
-  {
-    id: uuid("id").primaryKey().defaultRandom(),
-    name: varchar("name"),
-    email: varchar("email"),
-    rating: integer("rating").notNull(),
-    message: varchar("message").notNull(),
-    isAdminApproved: boolean("is_admin_approved").notNull().default(false),
-    // tripId: uuid("trip_id"),
-  }
-  // (table) => ({
-  //   tripFk: foreignKey({
-  //     columns: [table.tripId],
-  //     foreignColumns: [tripTable.id],
-  //     name: "reviews_trip_id_fkey",
-  //   }),
-  // })
-);
+export const reviewsTable = pgTable("reviews", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: varchar("name"),
+  email: varchar("email"),
+  rating: integer("rating").notNull(),
+  message: varchar("message").notNull(),
+  isAdminApproved: boolean("is_admin_approved").notNull().default(false),
+});
 
 export const contactTable = pgTable("contacts", {
   id: uuid("id").primaryKey().defaultRandom(),

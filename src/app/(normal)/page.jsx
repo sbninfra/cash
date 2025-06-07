@@ -195,39 +195,6 @@ function PackageCard({ title, description, image, date }) {
     </div>
   );
 }
-// function PackageCard({ title, description, image, date }) {
-//   return (
-//     <div className="border bg-white rounded-2xl overflow-hidden shadow-md flex flex-col transition hover:shadow-lg ">
-//       {/* Image Section */}
-//       <div className="w-full group relative h-72 overflow-hidden">
-//         <img
-//           src={image}
-//           alt={title}
-//           className="w-full h-full group-hover:scale-110 object-cover duration-200 object-center"
-//         />
-
-//         <p className=" absolute right-6 top-6 bg-white px-3 py-1 rounded-full text-primary font-semibold ">
-//           {date}
-//         </p>
-//       </div>
-
-//       {/* Content Section */}
-//       <div className="px-6 pt-6  flex flex-col justify-between w-full ">
-//         <Link href={"/trip"}>
-//           <h3 className=" w-fit hover:underline text-dark text-3xl font-playfair line-clamp-2 font-bold mb-2">
-//             {title}
-//           </h3>
-//         </Link>
-//         <p className="text-sub mb-4 text-base text-gray-400 line-clamp-3">
-//           {description}
-//         </p>
-//       </div>
-//       <div className=" mt-auto mb-6 ml-6 cursor-pointer font-semibold  py-3 px-3 hover:px-6 rounded-full  hover:bg-[#FF6B35] duration-200 hover:text-white text-[#FF6B35] w-fit">
-//         View more
-//       </div>
-//     </div>
-//   );
-// }
 
 function TravelWithUs() {
   const data = [
