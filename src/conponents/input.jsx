@@ -5,18 +5,18 @@ function Input({
   placeholder,
   value,
   onChange,
-  type = "text",
   className,
+  onKeyDown = () => {},
 }) {
   return (
-    <div className={cn(" w-full flex flex-col gap-1", className)}>
-      <p className=" font-medium">{title}</p>
+    <div className={cn("flex w-full flex-col gap-1", className)}>
+      <p className="font-medium">{title}</p>
       <input
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        type={type}
-        className="border rounded-md py-1.5 px-2 bg-white"
+        onKeyDown={onKeyDown}
+        className="rounded-md border bg-white px-2 py-1.5"
       />
     </div>
   );

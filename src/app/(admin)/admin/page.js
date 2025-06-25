@@ -16,7 +16,7 @@ const Page = async () => {
 
         <div>
           <Link
-            href={"/admin/new-trip"}
+            href={"/admin/trip"}
             className=" border py-2 px-4 rounded-md cursor-pointer hover:bg-gray-100 duration-200 text-sm"
           >
             New Trip

@@ -5,6 +5,7 @@ import Textarea from "@/conponents/textArea";
 import React, { useState } from "react";
 import { Star } from "lucide-react";
 import HeroBG from "@/conponents/tripHero";
+import { addReview } from "../../../../lib/tripHelper";
 
 const Page = () => {
   const [name, setName] = useState("");
@@ -12,6 +13,36 @@ const Page = () => {
   const [message, setMessage] = useState("");
   const [star, setStar] = useState(0);
   const [hoverStar, setHoverStar] = useState(0);
+
+  const [loading, setLoading] = useState(false);
+  const [resMessage, setResMessage] = useState("");
+
+  const handleSubmit = async (e) => {
+    if (!name || !email || !star || !message) return;
+    setLoading(true);
+    try {
+      await addReview({
+        name,
+        email,
+        rating: star,
+        message,
+      });
+
+      setResMessage("Form Submitted Successfully");
+    } catch (error) {
+      console.log(error);
+      setResMessage("Form Submit Failed, Please Try Again");
+    } finally {
+      setName("");
+      setEmail("");
+      setHoverStar(0);
+      setStar(0);
+      setMessage("");
+    }
+
+    console.log("data submitted");
+    setLoading(false);
+  };
 
   return (
     <div className="">
@@ -79,8 +110,13 @@ const Page = () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
+        {resMessage && (
+          <p className=" text-center font-medium text-green-600">
+            {resMessage}
+          </p>
+        )}
 
-        <SubmitButton />
+        <SubmitButton onClick={handleSubmit} loading={loading} />
       </div>
     </div>
   );

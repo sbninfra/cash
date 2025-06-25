@@ -4,7 +4,15 @@ import FileUpload from "@/helper/upload";
 const { PlusIcon, X } = require("lucide-react");
 const { useRef, useState } = require("react");
 
-export function BannerImage({ id, name, bannerImage, setBannerImage }) {
+export function BannerImage({
+  id,
+  name,
+  bannerImage,
+  setBannerImage,
+  label = "Banner Image",
+  maxWidthOrHeight = 1200,
+  maxSizeMB = 0.05,
+}) {
   const inputRef = useRef(null);
   const [errorMessage, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,7 +27,11 @@ export function BannerImage({ id, name, bannerImage, setBannerImage }) {
     if (file) {
       try {
         const formData = new FormData();
-        const compressedImage = await imageCompressor({ file });
+        const compressedImage = await imageCompressor({
+          file,
+          maxWidthOrHeight,
+          maxSizeMB,
+        });
         if (!compressedImage) return;
         formData.append("file", compressedImage);
         formData.append("name", name);
@@ -49,7 +61,7 @@ export function BannerImage({ id, name, bannerImage, setBannerImage }) {
 
   return (
     <div className="flex flex-col justify-start items-start gap-1.5">
-      <p>Banner Image</p>
+      <p>{label}</p>
 
       {bannerImage ? (
         <div className=" relative">

@@ -61,7 +61,7 @@ export function Testimonial() {
         Experience worth remembering
       </h3>
       <h3 className=" text-center font-playfair font-semibold mb-10 text-3xl">
-        What our happy clients say
+        What our clients say
       </h3>
       <Carousel
         opts={{
@@ -75,7 +75,7 @@ export function Testimonial() {
               <div className="p-1">
                 <Card className={" py-4"}>
                   <CardContent className="flex flex-col px-4">
-                    <div className=" flex justify-between gap-4 items-center">
+                    <div className=" flex flex-col sm:flex-row justify-between sm:gap-4 sm:items-center">
                       <p className=" font-semibold text-lg">{item.name}</p>
                       <div className=" flex gap-1.5">
                         {Array.from({ length: item.star }, (_, index) => (

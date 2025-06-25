@@ -6,10 +6,10 @@ function HeroBG({ text, img = null }) {
         <img
           src={img || "./trip-hero-bg.jpg"}
           alt="trip-hero-bg"
-          className=" w-full h-full object-cover min-h-[60vh]"
+          className=" w-full h-full object-cover min-h-[50vh] md:min-h-[60vh]"
         />
       </div>
-      <p className=" text-white font-semibold leading-16 md:leading-24 text-4xl w-full max-w-6xl md:text-7xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center p-4">
+      <p className=" text-gray-100 tracking-wide leading-12 md:leading-24 text-4xl w-full max-w-6xl md:text-6xl font-medium absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center p-4">
         {text}
       </p>
       <img

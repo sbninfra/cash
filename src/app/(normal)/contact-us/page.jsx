@@ -1,3 +1,4 @@
+"use client";
 import Input from "@/conponents/input";
 import SubmitButton from "@/conponents/submitButton";
 import Textarea from "@/conponents/textArea";
@@ -45,48 +46,6 @@ function Contacts() {
   );
 }
 
-// function ContactForm() {
-//   return (
-//     <div
-//       className=" px-4 my-20 w-full"
-//       style={{
-//         backgroundImage: "url('./contact-form-bg.jpg')",
-//         backgroundPosition: "center",
-//       }}
-//     >
-//       <div className=" max-w-7xl w-full flex-col md:flex-row px-1 md:px-4 mx-auto flex gap-4 py-6 md:py-0 items-center justify-between">
-//         <div className="">
-//           <p className=" text-5xl text-white font-semibold sm:max-w-sm leading-14 md:leading-16 ">
-//             Your Gateway to Hassle-Free Travel.
-//           </p>
-//           <div className=" bg-green-200 w-fit flex items-center gap-2 mt-6 rounded-full px-6 py-2">
-//             <p className=" text-lg ">Explore All Trips</p>
-//             <ArrowUpRight className="w-6 h-6" />
-//           </div>
-//         </div>
-//         <div className=" bg-sky-100 w-full md:w-fit mt-6 md:-my-6 rounded-2xl p-6 flex flex-col gap-4">
-//           <p className=" text-3xl font-semibold">Fill the form below</p>
-//           <div className=" flex flex-col gap-4 md:flex-row">
-//             get in touch
-//             <Input title={"Email"} placeholder="Email" />
-//           </div>
-//           <div className=" flex flex-col gap-4 md:flex-row">
-//             <Input title={"Phone"} placeholder="Phone" />
-//             <Input title={"Location"} placeholder="Location" />
-//           </div>
-//           <Textarea title={"Message"} placeholder="Message" />
-//           <div className=" flex gap-2 items-center">
-//             {/* <input type="checkbox" className=" size-4.5" /> */}
-//             <Checkbox />
-//             <p>I agree to the Privacy Policy</p>
-//           </div>
-//           <SubmitButton />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
 function ContactForm() {
   return (
     <div className=" px-6 py-12 w-full">
@@ -101,11 +60,11 @@ function ContactForm() {
           We are at your door disposal 7 days a week
         </p>
         <div className=" flex flex-col gap-4 w-full">
-          <div className=" flex gap-6 items-center">
+          <div className=" flex flex-col md:flex-row gap-6 items-center">
             <Input title={"Name"} placeholder="Enter full name" />
             <Input title={"Email"} placeholder="Email" />
           </div>
-          <div className=" flex gap-6 items-center">
+          <div className=" flex flex-col md:flex-row gap-6 items-center">
             <Input title={"Phone"} placeholder="Enter your phone number" />
             <Input title={"Location"} placeholder="Enter your location" />
           </div>

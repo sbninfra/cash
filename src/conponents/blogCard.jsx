@@ -4,7 +4,7 @@ import Link from "next/link";
 const BlogCard = ({ image, date, heading, description, blogLink }) => {
   return (
     <div className="bg-[#e8f3ee] h-full rounded-2xl p-4 sm:p-6 w-full space-y-6  shadow-md">
-      <div className="relative h-60 rounded-2xl overflow-hidden">
+      <div className="relative sm:w-auto w-full h-auto sm:h-60 rounded-2xl overflow-hidden">
         <img
           src={image}
           alt={heading}

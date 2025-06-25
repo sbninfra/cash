@@ -32,8 +32,8 @@ const navTabs = [
     href: "/admin",
   },
   {
-    name: "Hotel",
-    href: "/admin/hotel",
+    name: "Contact Us",
+    href: "/admin/contact-us",
   },
   {
     name: "Reviews",

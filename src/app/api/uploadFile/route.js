@@ -12,6 +12,9 @@ export async function POST(req) {
     return NextResponse.json({ error: "No file provided" }, { status: 400 });
   }
 
+  console.log("Received file:", file.name);
+  console.log("Received userId:", userId);
+
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
   const fileExt = file.name.split(".").pop();

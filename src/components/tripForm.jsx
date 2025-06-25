@@ -1,3 +1,4 @@
+"use client";
 import Input from "@/conponents/input";
 import Textarea from "@/conponents/textArea";
 import { useEffect, useState } from "react";
@@ -6,10 +7,15 @@ import { CustomSwitch } from "./customSwitch";
 import { BannerImage } from "./bannerImage";
 import { Images } from "./imagesInput";
 import { Trash2 } from "lucide-react";
-import { randomUUID } from "crypto";
 import { v4 as uuidv4 } from "uuid";
+import { cn } from "@/lib/utils";
+import { editTrip } from "../../lib/tripHelper";
+import { useRouter } from "next/navigation";
 
 export const TripForm = ({ tripData }) => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
   const [cTripDetails, setCTripDetails] = useState({
     isNew: tripData?.id ? false : true,
     id: tripData?.id || uuidv4(),
@@ -17,24 +23,23 @@ export const TripForm = ({ tripData }) => {
     description: tripData?.description || "",
     slug: tripData?.slug || "",
     dates: tripData?.dates || [],
-    isFlightIncluded: tripData?.isFlightIncluded || false,
-    isVisible: tripData?.isVisible || true,
     images: tripData?.images || [],
     bannerImage: tripData?.bannerImage || "",
     includes: tripData?.includes || [],
-    notes: tripData?.notes || [],
+    excludes: tripData?.excludes || [],
     itinary: tripData?.itinary || [],
     itinaryDescription: tripData?.itinaryDescription || "",
     isVisible: tripData?.isVisible || true,
+    isDomestic: tripData?.isDomestic == false ? false : true,
+    isVisible: tripData?.isVisible || true,
 
     //hotel details
-    hotelData: tripData?.hotelData || [
+    hotels: tripData?.hotels || [
       {
         hotelName: "",
         hotelImage: "",
         hotelRating: "",
         hotelLocation: "",
-        hotelDescription: "",
       },
     ],
   });
@@ -43,8 +48,16 @@ export const TripForm = ({ tripData }) => {
     console.log(cTripDetails);
   }, [cTripDetails]);
 
+  async function handleSubmit() {
+    setIsLoading(true);
+    await editTrip(cTripDetails);
+    setIsLoading(false);
+    router.push("/admin");
+  }
+
   return (
     <div className=" w-full  flex flex-col gap-6">
+      <SubmitButton onClickHandler={handleSubmit} isLoading={isLoading} />
       <Input
         title="Title"
         placeholder="Enter trip title"
@@ -61,45 +74,24 @@ export const TripForm = ({ tripData }) => {
           setCTripDetails({ ...cTripDetails, description: e.target.value })
         }
       />
-      <div className=" w-full flex gap-6 ">
-        <InputArray
-          title="Dates"
-          placeholder="Enter trip dates"
-          value={cTripDetails.dates}
-          onChangehandler={(value) => {
-            console.log(value);
-            setCTripDetails({ ...cTripDetails, dates: value });
-          }}
-        />
+      <InputArray
+        title="Includes"
+        placeholder="Enter trip includes"
+        value={cTripDetails.includes}
+        onChangehandler={(value) => {
+          setCTripDetails({ ...cTripDetails, includes: value });
+        }}
+      />
 
-        <InputArray
-          title="Includes"
-          placeholder="Enter trip includes"
-          value={cTripDetails.includes}
-          onChangehandler={(value) => {
-            setCTripDetails({ ...cTripDetails, includes: value });
-          }}
-        />
-      </div>
-      <div className=" w-full flex gap-6 ">
-        <InputArray
-          title="Itinary"
-          placeholder="Enter trip itinary"
-          value={cTripDetails.itinary}
-          onChangehandler={(value) => {
-            setCTripDetails({ ...cTripDetails, itinary: value });
-          }}
-        />
-
-        <InputArray
-          title="Notes"
-          placeholder="Enter trip notes"
-          value={cTripDetails.notes}
-          onChangehandler={(value) => {
-            setCTripDetails({ ...cTripDetails, notes: value });
-          }}
-        />
-      </div>
+      <InputArray
+        title="Excludes"
+        placeholder="Enter excludes"
+        value={cTripDetails.excludes}
+        onChangehandler={(value) => {
+          console.log(value);
+          setCTripDetails({ ...cTripDetails, excludes: value });
+        }}
+      />
 
       <Textarea
         title="Itinary Description"
@@ -113,25 +105,43 @@ export const TripForm = ({ tripData }) => {
         }
       />
 
+      <InputArray
+        title="Itinary"
+        placeholder="Enter trip itinary"
+        value={cTripDetails.itinary}
+        onChangehandler={(value) => {
+          setCTripDetails({ ...cTripDetails, itinary: value });
+        }}
+      />
+
+      <InputArray
+        title="Dates"
+        placeholder="Enter available dates"
+        value={cTripDetails.dates}
+        onChangehandler={(value) => {
+          setCTripDetails({ ...cTripDetails, dates: value });
+        }}
+      />
+
       <div className=" flex gap-4 ">
-        <CustomSwitch
-          title={"Is Flight"}
-          value={cTripDetails.isFlightIncluded}
-          onChange={() =>
-            setCTripDetails({
-              ...cTripDetails,
-              isFlightIncluded: !cTripDetails.isFlightIncluded,
-            })
-          }
-        />
         <CustomSwitch
           title={"Is Visible"}
           value={cTripDetails.isVisible}
           onChange={() =>
-            setCTripDetails({
-              ...cTripDetails,
-              isVisible: !cTripDetails.isVisible,
-            })
+            setCTripDetails((prev) => ({
+              ...prev,
+              isVisible: !prev.isVisible,
+            }))
+          }
+        />
+        <CustomSwitch
+          title={"Is Domestic"}
+          value={cTripDetails.isDomestic}
+          onChange={() =>
+            setCTripDetails((prev) => ({
+              ...prev,
+              isDomestic: !prev.isDomestic,
+            }))
           }
         />
       </div>
@@ -147,6 +157,7 @@ export const TripForm = ({ tripData }) => {
         }
       />
       <Images
+        id={cTripDetails.id}
         images={cTripDetails.images}
         setImages={(value) =>
           setCTripDetails({ ...cTripDetails, images: value })
@@ -157,19 +168,39 @@ export const TripForm = ({ tripData }) => {
 
       {/* Hotel selectin is remaining */}
 
-      {cTripDetails?.hotelData?.map((hotel, idx) => {
+      {cTripDetails?.hotels?.map((hotel, idx) => {
         function removeCurrentHotel() {
           setCTripDetails((prev) => ({
             ...prev,
-            hotelData: prev.hotelData.filter((item, index) => index !== idx),
+            hotels: prev.hotels.filter((item, index) => index !== idx),
           }));
         }
         return (
-          <>
+          <div key={idx}>
             <div className=" border-t-2 flex justify-between items-center gap-6 py-3 w-full">
               <p>Hotel {idx + 1}</p>
               <Trash2 onClick={removeCurrentHotel} size={20} color="red" />
             </div>
+            <BannerImage
+              maxWidthOrHeight={3600}
+              maxSizeMB={0.3}
+              name={`hotelImage${idx + 1}`}
+              id={cTripDetails.id}
+              label=""
+              bannerImage={hotel.hotelImage}
+              setBannerImage={(value) => {
+                setCTripDetails((prev) => {
+                  const updatedHotels = prev.hotels.map((item, index) =>
+                    index === idx ? { ...item, hotelImage: value } : item
+                  );
+                  return {
+                    ...prev,
+                    hotels: updatedHotels,
+                  };
+                });
+              }}
+            />
+
             <div className=" flex gap-6 w-full">
               <Input
                 title={`Hotel Name`}
@@ -178,7 +209,7 @@ export const TripForm = ({ tripData }) => {
                 onChange={(e) =>
                   setCTripDetails((prev) => ({
                     ...prev,
-                    hotelData: prev.hotelData.map((item, index) => {
+                    hotels: prev.hotels.map((item, index) => {
                       if (index === idx) {
                         return {
                           ...item,
@@ -197,7 +228,7 @@ export const TripForm = ({ tripData }) => {
                 onChange={(e) =>
                   setCTripDetails((prev) => ({
                     ...prev,
-                    hotelData: prev.hotelData.map((item, index) => {
+                    hotels: prev.hotels.map((item, index) => {
                       if (index === idx) {
                         return {
                           ...item,
@@ -210,25 +241,7 @@ export const TripForm = ({ tripData }) => {
                 }
               />
             </div>
-            <Textarea
-              title="Hotel Description"
-              placeholder="Enter trip Hotel description"
-              value={hotel.hotelDescription}
-              onChange={(e) =>
-                setCTripDetails((prev) => ({
-                  ...prev,
-                  hotelData: prev.hotelData.map((item, index) => {
-                    if (index === idx) {
-                      return {
-                        ...item,
-                        hotelDescription: e.target.value,
-                      };
-                    }
-                    return item;
-                  }),
-                }))
-              }
-            />
+
             <Input
               type="number"
               title={`Hotel Rating`}
@@ -237,7 +250,7 @@ export const TripForm = ({ tripData }) => {
               onChange={(e) =>
                 setCTripDetails((prev) => ({
                   ...prev,
-                  hotelData: prev.hotelData.map((item, index) => {
+                  hotels: prev.hotels.map((item, index) => {
                     if (index === idx) {
                       return {
                         ...item,
@@ -249,11 +262,45 @@ export const TripForm = ({ tripData }) => {
                 }))
               }
             />
-          </>
+          </div>
         );
       })}
 
-      <div className=" py-2 px-4 bg-green-400 rounded">Add new hotel</div>
+      <button
+        onClick={() =>
+          setCTripDetails((prev) => ({
+            ...prev,
+            hotels: [
+              ...prev.hotels,
+              {
+                hotelName: "",
+                hotelLocation: "",
+                hotelDescription: "",
+                hotelRating: "",
+              },
+            ],
+          }))
+        }
+        className=" text-center w-fit cursor-pointer py-2 px-4 bg-green-400 rounded"
+      >
+        Add new hotel
+      </button>
+      <SubmitButton onClickHandler={handleSubmit} isLoading={isLoading} />
     </div>
   );
 };
+
+function SubmitButton({ isLoading, onClickHandler }) {
+  return (
+    <button
+      disabled={isLoading}
+      onClick={onClickHandler}
+      className={cn(
+        " rounded cursor-pointer py-2 px-4 bg-primary text-white",
+        isLoading && " opacity-50 cursor-not-allowed"
+      )}
+    >
+      Save
+    </button>
+  );
+}

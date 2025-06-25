@@ -86,14 +86,15 @@ const Footer = () => {
                   Blogs
                 </Link>
               </li>
-              <li>
-                <Link href="/blog/1" className="hover:underline">
-                  Blogs single
-                </Link>
-              </li>
+
               <li>
                 <Link href="/privacy-policy" className="hover:underline">
                   Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms-conditions" className="hover:underline">
+                  Terms and Conditions
                 </Link>
               </li>
             </ul>
@@ -101,7 +102,7 @@ const Footer = () => {
         </div>
 
         <div className="text-center mt-4 text-sm border-t border-gray-400 pt-4">
-          Copyright © Roam Fy Planners | Developed by - Ashish Bishnoi
+          Copyright © Roam Fy Planners
         </div>
       </div>
     </div>

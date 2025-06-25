@@ -27,7 +27,7 @@ export function TripImageCousel({ imagesArray }) {
       className="w-full max-w-7xl px-4 md:px-12 mx-auto"
     >
       <CarouselContent>
-        {imagesArray.map((imgLink, index) => (
+        {imagesArray?.map((imgLink, index) => (
           <CarouselItem key={index}>
             <div className="p-1">
               <Card className={"overflow-hidden"}>

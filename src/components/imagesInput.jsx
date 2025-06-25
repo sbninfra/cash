@@ -1,7 +1,9 @@
+import { BannerImage } from "./bannerImage";
+
 const { XIcon, PlusIcon } = require("lucide-react");
 const { useRef } = require("react");
 
-export function Images({ images, setImages }) {
+export function Images({ images, setImages, id }) {
   const inputRef = useRef(null);
 
   function handleInputImage() {
@@ -24,7 +26,7 @@ export function Images({ images, setImages }) {
 
       <div className="flex flex-wrap gap-2">
         {/* Loop through all images */}
-        {images.map((img, index) => (
+        {images?.map((img, index) => (
           <div key={index} className="relative size-24">
             <img
               src={img}
@@ -39,12 +41,12 @@ export function Images({ images, setImages }) {
         ))}
 
         {/* Upload box */}
-        <div
-          onClick={handleInputImage}
-          className="size-24 flex items-center justify-center border-2 border-dashed rounded cursor-pointer"
-        >
-          <PlusIcon />
-        </div>
+        <BannerImage
+          name={`tirpImage${images?.length + 1}`}
+          id={id}
+          label=""
+          setBannerImage={(value) => setImages([...images, value])}
+        />
       </div>
 
       {/* Hidden input for file upload */}
