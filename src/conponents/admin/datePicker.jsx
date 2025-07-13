@@ -1,12 +1,13 @@
+"use client";
 import { DatePicker } from "@/components/datePicker";
 import { cn } from "@/lib/utils";
-import React from "react";
+import dayjs from "dayjs";
 
 const TitleDatepicker = ({ title, value, onChange, className }) => {
   return (
-    <div className={cn(" w-full flex flex-col gap-1", className)}>
-      <p className=" font-medium">{title}</p>
-      <DatePicker />
+    <div className={cn("flex w-full flex-col gap-1", className)}>
+      <p className="font-medium">{title}</p>
+      <DatePicker date={dayjs(value).toDate()} setDate={onChange} />
     </div>
   );
 };

@@ -24,7 +24,7 @@ const AdminBlogTble = ({ data }) => {
             <TableHead>Author </TableHead>
             <TableHead>Date </TableHead>
             <TableHead className="text-right">Category</TableHead>
-            <TableHead className="text-right">Visible</TableHead>
+            {/* <TableHead className="text-right">Visible</TableHead> */}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -43,7 +43,7 @@ const AdminBlogTble = ({ data }) => {
                 {dayjs(JSON.parse(item.date)).format("DD-MM-YYYY")}
               </TableCell>
               <TableCell className="text-right">{item.blogCategory}</TableCell>
-              <TableVisible item={item} />
+              {/* <TableVisible item={item} /> */}
             </TableRow>
           ))}
         </TableBody>

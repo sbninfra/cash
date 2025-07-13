@@ -4,13 +4,19 @@ import { FAQsAccordion } from "@/components/FAQAccordion";
 import BlogCard from "@/conponents/blogCard";
 import { cn } from "@/lib/utils";
 import { db } from "lib/db";
-import { tripTable } from "db/schema";
+import { reviewsTable, tripTable } from "db/schema";
 import { Packages } from "./packages";
 import SubscribeNewsletter from "./subscribeNexsLetter";
+import { eq } from "drizzle-orm";
 
 const Home = async () => {
-  const packageData = await db.select().from(tripTable);
-  console.log(packageData);
+  const [packageData, reviewData] = await Promise.all([
+    db.select().from(tripTable),
+    db
+      .select()
+      .from(reviewsTable)
+      .where(eq(reviewsTable.isAdminApproved, true)),
+  ]);
   return (
     <div className=" min-h-screen h-full">
       {/* <HeroSection /> */}
@@ -18,7 +24,7 @@ const Home = async () => {
       <Packages data={packageData} />
       <TravelWithUs />
       <TravelPerfection />
-      <Testimonial />
+      <Testimonial reviewData={reviewData} />
       <FAQsAccordion />
       <BlogSection />
       <SubscribeNewsletter />

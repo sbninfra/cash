@@ -1,20 +1,17 @@
 import { Plus } from "lucide-react";
 import Link from "next/link";
-// import { getAdminBlogData, getBlogFormData } from "lib";
+import { getAdminBlogData, getBlogFormData } from "lib";
 import AdminBlogFormTable from "@/conponents/AdminBlogFormData";
 import AdminBlogTble from "@/conponents/AdminBlogTable";
 
 const Page = async () => {
   let data = [];
   let blogFormData = [];
-  let leadFormData = [];
 
   try {
-    [data, blogFormData, leadFormData] = await Promise.all([
-      // getAdminBlogData(),
-      // getBlogFormData(),
-      [],
-      [],
+    [data, blogFormData] = await Promise.all([
+      getAdminBlogData(),
+      getBlogFormData(),
     ]);
   } catch (error) {
     console.error("Error fetching admin data:", error);

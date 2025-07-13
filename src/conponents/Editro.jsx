@@ -11,6 +11,8 @@ import {
   AlignCenter,
   AlignRight,
 } from "lucide-react";
+import InputImage from "./inputImage";
+import InputTagList from "./inputTagList";
 import { toast } from "sonner";
 
 import { useEditor, EditorContent } from "@tiptap/react";
@@ -28,17 +30,14 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import Input from "@/conponents/input";
 import Textarea from "@/conponents/textArea";
+import { SelectBlogCategories } from "@/conponents/admin/selectBlogCategories";
 import TitleDatepicker from "@/conponents/admin/datePicker";
-import { v4 as uuidv4 } from "uuid";
 
+import { insertBlog, updateBlogByID } from "lib";
 import { Toaster } from "@/components/ui/sonner";
-// import { insertBlog, updateBlogByID } from "lib";
-import { blogUser } from "@/const/blogConst";
-import { SelectBlogCategories } from "./SelectCategories";
 import { SelectUser } from "./SelectUser";
-import { BannerImage } from "@/components/bannerImage";
-import InputTagList from "./inputTagList";
-import RichTextEditor from "./RichTextEditor";
+import { blogUser } from "@/const/blogConst";
+import { UploadImage } from "@/components/bannerImage";
 
 const TiptapEditor = ({ data }) => {
   const [title, setTitle] = useState(data?.title || "");
@@ -49,27 +48,63 @@ const TiptapEditor = ({ data }) => {
   const [user, setUser] = useState(
     data ? blogUser.find((item) => item.name === data.userName) : ""
   );
-  const [imageLink, setImageLink] = useState("");
+  const [imageLink, setImageLink] = useState(data?.image || "");
   const [tagList, setTagList] = useState(data?.tags || []);
   const [blogDate, setBlogDate] = useState(
     data?.date ? JSON.parse(data.date) : new Date()
   );
-  const [blogImage, setBlogImage] = useState(data?.image || "");
+  // const [blogDate, setBlogDate] = useState(new Date());
+  const [imageSrc, setImageSrc] = useState(data?.image || "");
+  const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const [textEditorData, setTextEditorData] = useState(data?.data || "");
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({
+        heading: true,
+        bulletList: true,
+        orderedList: true,
+        listItem: true,
+      }),
+      Youtube.configure({
+        controls: false,
+        nocookie: true,
+      }),
+      Underline,
+      Link.configure({
+        openOnClick: false,
+      }),
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
+      Table.configure({
+        resizable: true,
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
+    ],
+    content: data?.data || "<p>Hello World! 🌎️</p>",
+  });
 
-  const uuid = uuidv4();
+  const [savedHtml, setSavedHtml] = useState("");
+
+  useEffect(() => {
+    console.log(blogDate);
+  }, [blogDate]);
 
   const handleSave = async () => {
     setLoading(true);
-    if (textEditorData) {
+    if (editor) {
+      const html = editor.getHTML();
+      setSavedHtml(html);
+
       if (data?.slug) {
         const response = await updateBlogByID({
           title,
           metaDescription,
           blogCategory,
-          image: blogImage,
+          image: imageLink,
           tags: tagList,
           date: blogDate,
           data: html,
@@ -83,17 +118,17 @@ const TiptapEditor = ({ data }) => {
           toast("ERROR");
         }
       } else {
-        // const response = await insertBlog({
-        //   title,
-        //   metaDescription,
-        //   blogCategory,
-        //   image: blogImage,
-        //   tags: tagList,
-        //   date: blogDate,
-        //   data: html,
-        //   userImage: user.image,
-        //   userName: user.name,
-        // });
+        const response = await insertBlog({
+          title,
+          metaDescription,
+          blogCategory,
+          image: imageLink,
+          tags: tagList,
+          date: blogDate,
+          data: html,
+          userImage: user.image,
+          userName: user.name,
+        });
         showNoti(response);
       }
     }
@@ -107,19 +142,19 @@ const TiptapEditor = ({ data }) => {
       setTitle("");
       setMetaDescription("");
       setBlogCategory("");
-      setBlogImage("");
+      setImageLink("");
       setTagList([]);
       setBlogDate(new Date());
       setUser("");
+      setImageSrc(null);
+      setImageFile(null);
       editor.commands.clearContent();
     } else {
       toast("ERROR");
     }
   }
 
-  useEffect(() => {
-    console.log(tagList);
-  }, [tagList]);
+  if (!editor) return null;
 
   return (
     <div className="mx-auto w-full max-w-7xl">
@@ -131,18 +166,8 @@ const TiptapEditor = ({ data }) => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
-      <div className="mb-3 grid grid-cols-2 gap-4">
-        <BannerImage
-          maxWidthOrHeight={3600}
-          maxSizeMB={0.3}
-          name={`blogImage-${uuid}`}
-          id={uuid}
-          label="Blog Image"
-          bannerImage={blogImage}
-          setBannerImage={(value) => {
-            setBlogImage(value);
-          }}
-        />
+      <div className="mb-3 flex gap-4">
+        <UploadImage image={imageLink} setImage={setImageLink} />
         <InputTagList value={tagList} setList={setTagList} />
       </div>
       <Textarea
@@ -165,18 +190,160 @@ const TiptapEditor = ({ data }) => {
       </div>
       {/* date and category */}
 
-      <RichTextEditor data={textEditorData} setData={setTextEditorData} />
+      <div className="my-6 flex flex-wrap gap-2 rounded-lg bg-muted p-2">
+        <Toggle
+          pressed={editor.isActive("bold")}
+          onPressedChange={() => editor.chain().focus().toggleBold().run()}
+        >
+          <Bold className="h-4 w-4" />
+        </Toggle>
 
-      <Button disabled={loading} onClick={handleSave}>
+        <Toggle
+          pressed={editor.isActive("italic")}
+          onPressedChange={() => editor.chain().focus().toggleItalic().run()}
+        >
+          <Italic className="h-4 w-4" />
+        </Toggle>
+
+        <Toggle
+          pressed={editor.isActive("underline")}
+          onPressedChange={() => editor.chain().focus().toggleUnderline().run()}
+        >
+          <UnderlineIcon className="h-4 w-4" />
+        </Toggle>
+
+        <Toggle
+          pressed={editor.isActive("heading", { level: 1 })}
+          onPressedChange={() =>
+            editor.chain().focus().toggleHeading({ level: 1 }).run()
+          }
+        >
+          {/* <Heading className="h-4 w-4" /> */}
+          <span className="ml-1 text-xs">H1</span>
+        </Toggle>
+
+        <Toggle
+          pressed={editor.isActive("heading", { level: 2 })}
+          onPressedChange={() =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
+          }
+        >
+          {/* <Heading className="h-4 w-4" /> */}
+          <span className="ml-1 text-xs">H2</span>
+        </Toggle>
+
+        <Toggle
+          pressed={editor.isActive("bulletList")}
+          onPressedChange={() =>
+            editor.chain().focus().toggleBulletList().run()
+          }
+        >
+          <List className="h-4 w-4" />
+        </Toggle>
+
+        <Toggle
+          pressed={editor.isActive("orderedList")}
+          onPressedChange={() =>
+            editor.chain().focus().toggleOrderedList().run()
+          }
+        >
+          <ListOrdered className="h-4 w-4" />
+        </Toggle>
+
+        <Toggle
+          pressed={editor.isActive("link")}
+          onPressedChange={() => {
+            const url = window.prompt("Enter URL");
+            if (url) {
+              editor.chain().focus().setLink({ href: url }).run();
+            }
+          }}
+        >
+          <LinkIcon className="h-4 w-4" />
+        </Toggle>
+
+        <Toggle
+          pressed={editor.isActive({ textAlign: "left" })}
+          onPressedChange={() =>
+            editor.chain().focus().setTextAlign("left").run()
+          }
+        >
+          <AlignLeft className="h-4 w-4" />
+        </Toggle>
+
+        <Toggle
+          pressed={editor.isActive({ textAlign: "center" })}
+          onPressedChange={() =>
+            editor.chain().focus().setTextAlign("center").run()
+          }
+        >
+          <AlignCenter className="h-4 w-4" />
+        </Toggle>
+
+        <Toggle
+          pressed={editor.isActive({ textAlign: "right" })}
+          onPressedChange={() =>
+            editor.chain().focus().setTextAlign("right").run()
+          }
+        >
+          <AlignRight className="h-4 w-4" />
+        </Toggle>
+        <Toggle
+          onPressedChange={() => {
+            const url = window.prompt("Enter YouTube URL");
+            if (url) {
+              editor
+                .chain()
+                .focus()
+                .setYoutubeVideo({
+                  src: url,
+                })
+                .run();
+            }
+          }}
+        >
+          <span className="text-xs">YT</span>
+        </Toggle>
+
+        <Toggle
+          onPressedChange={() => {
+            editor
+              .chain()
+              .focus()
+              .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+              .run();
+          }}
+        >
+          <span className="text-xs">Table</span>
+        </Toggle>
+        <Button onClick={() => editor.chain().focus().addColumnAfter().run()}>
+          Add Column
+        </Button>
+        <Button onClick={() => editor.chain().focus().addRowAfter().run()}>
+          Add Row
+        </Button>
+        <Button onClick={() => editor.chain().focus().deleteTable().run()}>
+          Delete Table
+        </Button>
+      </div>
+
+      <div className="mb-4 rounded-md border-2 bg-white p-1">
+        <EditorContent className="[&>*]:focus:outline-none" editor={editor} />
+      </div>
+
+      <Button
+        //  disabled={loading}
+        onClick={handleSave}
+      >
         Save
       </Button>
 
-      {textEditorData && (
+      {savedHtml && (
         <div className="prose tiptap mt-4 pt-4">
           <h3 className="mb-2 font-semibold">Preview (Saved HTML):</h3>
           <div
             className="space-y-2 break-all"
-            dangerouslySetInnerHTML={{ __html: textEditorData }}
+            dangerouslySetInnerHTML={{ __html: savedHtml }}
           />
         </div>
       )}

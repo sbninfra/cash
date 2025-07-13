@@ -11,7 +11,7 @@ const Page = () => {
   }, []);
   return (
     <div className="mx-auto max-w-7xl px-4 pt-28">
-      {/* {localStorage?.getItem("token") === process.env.NEXT_PUBLIC_TOKEN ? ( */}
+      {/* {localStorage?.getItem('token') === process.env.NEXT_PUBLIC_TOKEN ? ( */}
       <TiptapEditor />
       {/* ) : (
         <div>Not logged in</div>

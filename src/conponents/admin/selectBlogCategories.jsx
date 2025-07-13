@@ -11,12 +11,12 @@ import {
 } from "@/components/ui/select";
 import { blogCategories } from "@/const";
 
-export function SelectBlogCategories() {
+export function SelectBlogCategories({ value, onChange }) {
   return (
-    <div className=" w-full flex flex-col gap-1">
-      <p className=" font-medium">Blog Category</p>
-      <Select>
-        <SelectTrigger className=" mb-4 w-full">
+    <div className="flex w-full flex-col gap-1">
+      <p className="font-medium">Blog Category</p>
+      <Select value={value} onValueChange={onChange}>
+        <SelectTrigger className="mb-4 w-full">
           <SelectValue placeholder="Select a Category" />
         </SelectTrigger>
         <SelectContent>

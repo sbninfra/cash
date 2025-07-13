@@ -1,5 +1,5 @@
 // app/api/upload/route.js
-import r2 from "@/lib/rs";
+// import r2 from "@/lib/rs";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
