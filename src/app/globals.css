@@ -163,16 +163,22 @@
   font-family: var(--font-playfair);
 }
 
-
+.tiptap h1,h2,ul,li,p,ol,strong{
+    font-family: var(--font-playfair);
+}
 
 .tiptap h1 {
+  /* margin-top: 2rem; */
+
   font-size: 2rem;
   font-weight: bold;
 }
 .tiptap h2 {
-  font-size: 1.5rem;
-  font-weight: bold;
+  /* margin-top: 2rem; */
+  font-size: 2rem;
+  font-weight: 400;
 }
+
 .tiptap ul {
   list-style-type: disc;
   padding-left: 1.5rem;

@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-export function Packages({ tripData }) {
+export function Packages({ data: tripData }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isToggleDomestic, setIsToggleDomestic] = useState(true);
   const [filtredTrip, setFiltredTrip] = useState(tripData);
@@ -11,13 +11,13 @@ export function Packages({ tripData }) {
     setIsLoading(true);
     if (isToggleDomestic) {
       setFiltredTrip(
-        tripData.filter((trip) => {
+        tripData?.filter((trip) => {
           return trip.isDomestic;
         })
       );
     } else {
       setFiltredTrip(
-        tripData.filter((trip) => {
+        tripData?.filter((trip) => {
           return !trip.isDomestic;
         })
       );
@@ -64,8 +64,8 @@ export function Packages({ tripData }) {
 
           <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-4">
             {!isLoading &&
-              filtredTrip.map((item, idx) => {
-                return <PackageCard key={item.title} {...item} idx={idx} />;
+              filtredTrip?.map((item, idx) => {
+                return <PackageCard key={item.slug} {...item} idx={idx} />;
               })}
           </div>
         </div>
@@ -96,9 +96,9 @@ function PackageCard({ title, bannerImage, dates, slug, idx }) {
             </h3>
           </Link>
         </div>
-        <div className=" z-20 flex items-center justify-between gap-4 w-full">
-          <p className=" text-[#ffd7c8] font-semibold">{dates[0]}</p>
-        </div>
+        {/* <div className=" z-20 flex items-center justify-between gap-4 w-full">
+          <p className=" text-[#ffd7c8] font-semibold">{dates?.[0]}</p>
+        </div> */}
       </div>
     </motion.div>
   );

@@ -1,6 +1,6 @@
 {
-  "id": "3506521a-b85a-4bcb-bfa5-99d72821106f",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "acf19573-18af-45be-9866-e9190fb23081",
+  "prevId": "3506521a-b85a-4bcb-bfa5-99d72821106f",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -249,6 +249,39 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.subscription": {
+      "name": "subscription",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.trips": {
       "name": "trips",
       "schema": "",
@@ -259,6 +292,12 @@
           "primaryKey": true,
           "notNull": true,
           "default": "gen_random_uuid()"
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
         },
         "title": {
           "name": "title",
@@ -272,24 +311,11 @@
           "primaryKey": false,
           "notNull": false
         },
-        "slug": {
-          "name": "slug",
+        "trip_information": {
+          "name": "trip_information",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
-        },
-        "dates": {
-          "name": "dates",
-          "type": "varchar[]",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "is_flight_included": {
-          "name": "is_flight_included",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false,
-          "default": false
         },
         "images": {
           "name": "images",
@@ -303,29 +329,18 @@
           "primaryKey": false,
           "notNull": false
         },
-        "includes": {
-          "name": "includes",
-          "type": "varchar[]",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "note": {
-          "name": "note",
-          "type": "varchar[]",
-          "primaryKey": false,
-          "notNull": false
-        },
         "itinary": {
           "name": "itinary",
           "type": "varchar[]",
           "primaryKey": false,
           "notNull": false
         },
-        "itinary_description": {
-          "name": "itinary_description",
-          "type": "varchar",
+        "is_flight_included": {
+          "name": "is_flight_included",
+          "type": "boolean",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": false
         },
         "is_visible": {
           "name": "is_visible",
@@ -334,33 +349,16 @@
           "notNull": true,
           "default": true
         },
-        "hotel_name": {
-          "name": "hotel_name",
-          "type": "varchar",
+        "is_domestic": {
+          "name": "is_domestic",
+          "type": "boolean",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": true
         },
-        "hotel_image": {
-          "name": "hotel_image",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "hotel_rating": {
-          "name": "hotel_rating",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "hotel_location": {
-          "name": "hotel_location",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "hotel_description": {
-          "name": "hotel_description",
-          "type": "varchar",
+        "hotels": {
+          "name": "hotels",
+          "type": "jsonb[]",
           "primaryKey": false,
           "notNull": false
         }

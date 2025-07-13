@@ -1,89 +1,77 @@
-import { getTrips, insertTrip } from "lib";
-import AddNewTrip from "./AddNewTrip";
+import Link from "next/link";
+import { Testimonial } from "@/components/testrimonial";
+import { FAQsAccordion } from "@/components/FAQAccordion";
+import BlogCard from "@/conponents/blogCard";
+import { cn } from "@/lib/utils";
+import { db } from "lib/db";
+import { tripTable } from "db/schema";
+import { Packages } from "./packages";
+import SubscribeNewsletter from "./subscribeNexsLetter";
 
-export default async function Home() {
-  const tripData = await getTrips();
-
+const Home = async () => {
+  const packageData = await db.select().from(tripTable);
+  console.log(packageData);
   return (
-    // <div className=" bg-gradient-to-b from-emerald-50 to-white p-6  md:p-8 ">
-    <div id="package" className=" bg-white px-6 py-20  ">
-      <div className=" w-full mx-auto max-w-7xl flex flex-col gap-6">
-        <h2 className=" text-5xl text-center mb-6 font-medium font-playfair">
-          Our Travel Packages
-        </h2>
-        <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-4">
-          {data.map((item) => {
-            return <PackageCard key={item.title} {...item} />;
-          })}
-        </div>
-      </div>
+    <div className=" min-h-screen h-full">
+      {/* <HeroSection /> */}
+      <HeroSection2 />
+      <Packages data={packageData} />
+      <TravelWithUs />
+      <TravelPerfection />
+      <Testimonial />
+      <FAQsAccordion />
+      <BlogSection />
+      <SubscribeNewsletter />
+      <Link href="/admin">Admin</Link>
     </div>
   );
-}
+};
 
-function PackageCard({ title, description, image, date }) {
+export default Home;
+
+function HeroSection2() {
   return (
     <div
+      className="relative w-full h-[90vh] bg-emerald-50  flex items-center"
       style={{
-        backgroundImage: `url(${image})`,
+        backgroundImage: "url('./pattern-bg.png')",
         backgroundPosition: "center",
-        backgroundSize: "cover",
       }}
-      className="border flex justify-end rounded-2xl overflow-hidden shadow-md h-96 hover:shadow-lg "
     >
-      <div className=" relative p-6 flex flex-col mt-auto h-fit text-white ">
-        <div className=" absolute top-0 left-0 w-full h-full blur bg-gradient-to-b from-[#0f0f0f3f] via-black to-black opacity-70"></div>
-        <div className=" z-20 flex flex-col justify-between w-full ">
-          <Link href={"/trip"}>
-            <h3 className=" w-fit hover:underline   text-3xl font-playfair line-clamp-2 font-bold mb-2">
-              {title}
-            </h3>
-          </Link>
-          <p className="  mb-4 line-clamp-2">{description}</p>
+      <div className="z-10 p-4  w-full mx-auto max-w-7xl">
+        <div className=" mx-auto md:mx-0 max-w-lg flex flex-col gap-6 w-full">
+          <img
+            src="/hero-car.png"
+            alt=""
+            className=" block md:hidden w-full h-full object-cover"
+          />
+          <h1 className="  text-center leading-12 xl:leading-16 md:text-left font-playfair text-dark text-5xl xl:text-6xl font-bold md:font-semibold">
+            Find your Perfect{" "}
+          </h1>
+          <span className=" text-center md:text-left text-6xl md:text-7xl xl:text-8xl text-red-500 font-extrabold">
+            Adventure
+          </span>
+
+          <p className="text-center mb-6 text-lg md:text-xl md:text-left text-gray-500 ">
+            Brouse handpicked travel plans crafted for every kind of explore
+            handpicked travel plans crafted for every kind of explore
+          </p>
+
+          <button className="  mx-auto text-lg md:m-0 w-full bg-primary text-white font-semibold hover:scale-105 cursor-pointer duration-200 shadow py-3 px-6  rounded-full sm:w-fit">
+            View Packages
+          </button>
         </div>
-        <div className=" z-20 flex items-center justify-between gap-4 w-full">
-          <p className=" text-[#ffd7c8] font-semibold">{date}</p>
-          <div className=" mt-auto  cursor-pointer font-semibold  py-2 px-4 hover:scale-105 rounded-full  bg-[#FF6B35] duration-200 text-white  w-fit">
-            View more
-          </div>
-        </div>
+      </div>
+      <div className="hidden md:block absolute max-w-full md:max-w-[50%] w-full right-0 top-1/2 -translate-y-1/2 ">
+        <img
+          src="/hero-car.png"
+          alt=""
+          className=" w-full h-full object-cover"
+        />
       </div>
     </div>
   );
 }
-// function PackageCard({ title, description, image, date }) {
-//   return (
-//     <div className="border bg-white rounded-2xl overflow-hidden shadow-md flex flex-col transition hover:shadow-lg ">
-//       {/* Image Section */}
-//       <div className="w-full group relative h-72 overflow-hidden">
-//         <img
-//           src={image}
-//           alt={title}
-//           className="w-full h-full group-hover:scale-110 object-cover duration-200 object-center"
-//         />
-
-//         <p className=" absolute right-6 top-6 bg-white px-3 py-1 rounded-full text-primary font-semibold ">
-//           {date}
-//         </p>
-//       </div>
-
-//       {/* Content Section */}
-//       <div className="px-6 pt-6  flex flex-col justify-between w-full ">
-//         <Link href={"/trip"}>
-//           <h3 className=" w-fit hover:underline text-dark text-3xl font-playfair line-clamp-2 font-bold mb-2">
-//             {title}
-//           </h3>
-//         </Link>
-//         <p className="text-sub mb-4 text-base text-gray-400 line-clamp-3">
-//           {description}
-//         </p>
-//       </div>
-//       <div className=" mt-auto mb-6 ml-6 cursor-pointer font-semibold  py-3 px-3 hover:px-6 rounded-full  hover:bg-[#FF6B35] duration-200 hover:text-white text-[#FF6B35] w-fit">
-//         View more
-//       </div>
-//     </div>
-//   );
-// }
 
 function TravelWithUs() {
   const data = [
@@ -240,37 +228,6 @@ function TravelPerfectionCard({ children, title, description, className }) {
       <p className=" mt-2 text-sm md:mt-4 text-gray-400  text-center ">
         {description}
       </p>
-    </div>
-  );
-}
-
-function SubscribeNewsletter() {
-  return (
-    <div className="w-full max-w-7xl py-12 mx-auto px-4">
-      <div
-        className="  rounded-2xl flex items-center justify-center px-4  h-96"
-        style={{
-          backgroundImage: "url('./newsletter.jpg')",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}
-      >
-        <div className=" -translate-y-12 xl:translate-x-24 flex flex-col items-center">
-          <p className=" text-white  text-center font-bold max-w-lg w-full text-3xl md:text-4xl ">
-            Subscribe newsletter $ get company news.
-          </p>
-          <div className=" bg-white py-1 px-1 justify-between w-full max-w-sm flex gap-2 rounded mt-6">
-            <input
-              type="text"
-              placeholder="Enter your email"
-              className=" pl-6 outline-none w-[60%]"
-            />
-            <button className=" bg-[#FF6B35] text-white py-3 px-6 rounded-sm">
-              Subscribe
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

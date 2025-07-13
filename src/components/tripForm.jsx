@@ -4,13 +4,15 @@ import Textarea from "@/conponents/textArea";
 import { useEffect, useState } from "react";
 import { InputArray } from "./inputArray";
 import { CustomSwitch } from "./customSwitch";
-import { BannerImage } from "./bannerImage";
+import { UploadImage } from "./bannerImage";
 import { Images } from "./imagesInput";
 import { Trash2 } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import { cn } from "@/lib/utils";
-import { editTrip } from "../../lib/tripHelper";
+// import { editTrip } from "../../lib/tripHelper";
 import { useRouter } from "next/navigation";
+import RichTextEditor from "@/conponents/RichTextEditor";
+import { editTrip, insertTrip } from "lib";
 
 export const TripForm = ({ tripData }) => {
   const router = useRouter();
@@ -19,19 +21,17 @@ export const TripForm = ({ tripData }) => {
   const [cTripDetails, setCTripDetails] = useState({
     isNew: tripData?.id ? false : true,
     id: tripData?.id || uuidv4(),
+    slug: tripData?.slug || "",
     title: tripData?.title || "",
     description: tripData?.description || "",
-    slug: tripData?.slug || "",
-    dates: tripData?.dates || [],
+    tripInformation: tripData?.tripInformation || "",
     images: tripData?.images || [],
     bannerImage: tripData?.bannerImage || "",
-    includes: tripData?.includes || [],
-    excludes: tripData?.excludes || [],
+
     itinary: tripData?.itinary || [],
-    itinaryDescription: tripData?.itinaryDescription || "",
+
     isVisible: tripData?.isVisible || true,
     isDomestic: tripData?.isDomestic == false ? false : true,
-    isVisible: tripData?.isVisible || true,
 
     //hotel details
     hotels: tripData?.hotels || [
@@ -50,7 +50,11 @@ export const TripForm = ({ tripData }) => {
 
   async function handleSubmit() {
     setIsLoading(true);
-    await editTrip(cTripDetails);
+    if (cTripDetails.isNew) {
+      await insertTrip(cTripDetails);
+    } else {
+      await editTrip(cTripDetails);
+    }
     setIsLoading(false);
     router.push("/admin");
   }
@@ -74,35 +78,14 @@ export const TripForm = ({ tripData }) => {
           setCTripDetails({ ...cTripDetails, description: e.target.value })
         }
       />
-      <InputArray
-        title="Includes"
-        placeholder="Enter trip includes"
-        value={cTripDetails.includes}
-        onChangehandler={(value) => {
-          setCTripDetails({ ...cTripDetails, includes: value });
-        }}
-      />
 
-      <InputArray
-        title="Excludes"
-        placeholder="Enter excludes"
-        value={cTripDetails.excludes}
-        onChangehandler={(value) => {
-          console.log(value);
-          setCTripDetails({ ...cTripDetails, excludes: value });
+      <RichTextEditor
+        data={cTripDetails.tripInformation}
+        setData={(newInformationData) => {
+          setCTripDetails((prev) => {
+            return { ...prev, tripInformation: newInformationData };
+          });
         }}
-      />
-
-      <Textarea
-        title="Itinary Description"
-        placeholder="Enter trip itinary description"
-        value={cTripDetails.itinaryDescription}
-        onChange={(e) =>
-          setCTripDetails({
-            ...cTripDetails,
-            itinaryDescription: e.target.value,
-          })
-        }
       />
 
       <InputArray
@@ -111,15 +94,6 @@ export const TripForm = ({ tripData }) => {
         value={cTripDetails.itinary}
         onChangehandler={(value) => {
           setCTripDetails({ ...cTripDetails, itinary: value });
-        }}
-      />
-
-      <InputArray
-        title="Dates"
-        placeholder="Enter available dates"
-        value={cTripDetails.dates}
-        onChangehandler={(value) => {
-          setCTripDetails({ ...cTripDetails, dates: value });
         }}
       />
 
@@ -148,11 +122,9 @@ export const TripForm = ({ tripData }) => {
 
       {/* #################################################################### */}
       {/* #################################################################### */}
-      <BannerImage
-        name="bannerImage"
-        id={cTripDetails.id}
-        bannerImage={cTripDetails.bannerImage}
-        setBannerImage={(value) =>
+      <UploadImage
+        image={cTripDetails.bannerImage}
+        setImage={(value) =>
           setCTripDetails({ ...cTripDetails, bannerImage: value })
         }
       />
@@ -181,14 +153,9 @@ export const TripForm = ({ tripData }) => {
               <p>Hotel {idx + 1}</p>
               <Trash2 onClick={removeCurrentHotel} size={20} color="red" />
             </div>
-            <BannerImage
-              maxWidthOrHeight={3600}
-              maxSizeMB={0.3}
-              name={`hotelImage${idx + 1}`}
-              id={cTripDetails.id}
-              label=""
-              bannerImage={hotel.hotelImage}
-              setBannerImage={(value) => {
+            <UploadImage
+              image={hotel.hotelImage}
+              setImage={(value) => {
                 setCTripDetails((prev) => {
                   const updatedHotels = prev.hotels.map((item, index) =>
                     index === idx ? { ...item, hotelImage: value } : item
@@ -293,11 +260,11 @@ export const TripForm = ({ tripData }) => {
 function SubmitButton({ isLoading, onClickHandler }) {
   return (
     <button
-      disabled={isLoading}
+      // disabled={isLoading}
       onClick={onClickHandler}
       className={cn(
-        " rounded cursor-pointer py-2 px-4 bg-primary text-white",
-        isLoading && " opacity-50 cursor-not-allowed"
+        " rounded cursor-pointer py-2 px-4 bg-primary text-white"
+        // isLoading && " opacity-50 cursor-not-allowed"
       )}
     >
       Save

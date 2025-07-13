@@ -1,4 +1,4 @@
-import { BannerImage } from "./bannerImage";
+import { UploadImage } from "./bannerImage";
 
 const { XIcon, PlusIcon } = require("lucide-react");
 const { useRef } = require("react");
@@ -22,7 +22,7 @@ export function Images({ images, setImages, id }) {
 
   return (
     <div className="flex flex-col gap-2">
-      <p>Trip Images</p>
+      <p>Trip Crousel Images blow</p>
 
       <div className="flex flex-wrap gap-2">
         {/* Loop through all images */}
@@ -41,11 +41,9 @@ export function Images({ images, setImages, id }) {
         ))}
 
         {/* Upload box */}
-        <BannerImage
-          name={`tirpImage${images?.length + 1}`}
-          id={id}
-          label=""
-          setBannerImage={(value) => setImages([...images, value])}
+        <UploadImage
+          image=""
+          setImage={(value) => setImages([...images, value])}
         />
       </div>
 

@@ -12,7 +12,7 @@ import {
 import dayjs from "dayjs";
 import Link from "next/link";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
-import { toggleBlogVisibility } from "lib";
+// import { toggleBlogVisibility } from "lib";
 
 const AdminBlogTble = ({ data }) => {
   return (
@@ -60,7 +60,7 @@ function TableVisible({ item }) {
 
   async function handleToggleVisible(id, isVisible) {
     setLoading(true);
-    await toggleBlogVisibility(id, !isVisible);
+    // await toggleBlogVisibility(id, !isVisible);
     setIsVisible(!isVisible);
     setLoading(false);
   }

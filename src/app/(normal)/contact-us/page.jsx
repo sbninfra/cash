@@ -6,6 +6,7 @@ import HeroBG from "@/conponents/tripHero";
 import { Checkbox } from "antd";
 import { ArrowUpRight, Mail, PhoneIcon } from "lucide-react";
 import React from "react";
+import { ContactForm } from "./contactForm";
 
 const Page = () => {
   return (
@@ -40,39 +41,6 @@ function Contacts() {
         <div className=" space-y-2">
           <p className=" text-lg">email@gmail.com</p>
           <p className=" text-lg">email@gmail.com</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ContactForm() {
-  return (
-    <div className=" px-6 py-12 w-full">
-      <div className=" max-w-5xl mx-auto w-full shadow-md py-10 border border-gray-100 px-12 flex flex-col">
-        <h3 className=" text-lg text-emerald-600 italic mb-2 font-medium text-center">
-          Contact Us
-        </h3>
-        <h2 className="mb-6 text-center text-5xl font-medium font-playfair">
-          get in touch
-        </h2>
-        <p className=" text-center mb-12 text-gray-600">
-          We are at your door disposal 7 days a week
-        </p>
-        <div className=" flex flex-col gap-4 w-full">
-          <div className=" flex flex-col md:flex-row gap-6 items-center">
-            <Input title={"Name"} placeholder="Enter full name" />
-            <Input title={"Email"} placeholder="Email" />
-          </div>
-          <div className=" flex flex-col md:flex-row gap-6 items-center">
-            <Input title={"Phone"} placeholder="Enter your phone number" />
-            <Input title={"Location"} placeholder="Enter your location" />
-          </div>
-          <Textarea title={"Message"} placeholder="Message" />
-
-          <div className=" mt-4 w-full">
-            <SubmitButton className=" ml-auto w-fit" />
-          </div>
         </div>
       </div>
     </div>

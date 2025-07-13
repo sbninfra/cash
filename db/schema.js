@@ -1,56 +1,40 @@
 import {
   boolean,
-  foreignKey,
   integer,
   pgTable,
   uuid,
   varchar,
-  primaryKey,
   timestamp,
+  jsonb,
 } from "drizzle-orm/pg-core";
 
 export const tripTable = pgTable("trips", {
   id: uuid("id").primaryKey().defaultRandom(),
+  slug: varchar("slug"),
   title: varchar("title"),
   description: varchar("description"),
-  slug: varchar("slug"),
-  dates: varchar("dates").array(),
-  isFlightIncluded: boolean("is_flight_included").default(false),
+  tripInformation: varchar("trip_information"),
   images: varchar("images").array(),
   bannerImage: varchar("banner_image"),
-  includes: varchar("includes").array(),
-  note: varchar("note").array(),
+
   itinary: varchar("itinary").array(),
-  itinaryDescription: varchar("itinary_description"),
+
+  isFlightIncluded: boolean("is_flight_included").default(false),
   isVisible: boolean("is_visible").notNull().default(true),
+  isDomestic: boolean("is_domestic").notNull().default(true),
 
   //hotel details
-  hotelName: varchar("hotel_name"),
-  hotelImage: varchar("hotel_image"),
-  hotelRating: integer("hotel_rating"),
-  hotelLocation: varchar("hotel_location"),
-  hotelDescription: varchar("hotel_description"),
+  hotels: jsonb("hotels").array(),
 });
 
-export const reviewsTable = pgTable(
-  "reviews",
-  {
-    id: uuid("id").primaryKey().defaultRandom(),
-    name: varchar("name"),
-    email: varchar("email"),
-    rating: integer("rating").notNull(),
-    message: varchar("message").notNull(),
-    isAdminApproved: boolean("is_admin_approved").notNull().default(false),
-    // tripId: uuid("trip_id"),
-  }
-  // (table) => ({
-  //   tripFk: foreignKey({
-  //     columns: [table.tripId],
-  //     foreignColumns: [tripTable.id],
-  //     name: "reviews_trip_id_fkey",
-  //   }),
-  // })
-);
+export const reviewsTable = pgTable("reviews", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: varchar("name"),
+  email: varchar("email"),
+  rating: integer("rating").notNull(),
+  message: varchar("message").notNull(),
+  isAdminApproved: boolean("is_admin_approved").notNull().default(false),
+});
 
 export const contactTable = pgTable("contacts", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -85,5 +69,11 @@ export const blogForm = pgTable("blogForm", {
   message: varchar("message"),
   number: varchar("number"),
   refrenceBlogLink: varchar("refrence_blog_link"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const subscriptionTable = pgTable("subscription", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  email: varchar("email").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });

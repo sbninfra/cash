@@ -32,12 +32,13 @@ import TitleDatepicker from "@/conponents/admin/datePicker";
 import { v4 as uuidv4 } from "uuid";
 
 import { Toaster } from "@/components/ui/sonner";
-import { insertBlog, updateBlogByID } from "lib";
+// import { insertBlog, updateBlogByID } from "lib";
 import { blogUser } from "@/const/blogConst";
 import { SelectBlogCategories } from "./SelectCategories";
 import { SelectUser } from "./SelectUser";
 import { BannerImage } from "@/components/bannerImage";
 import InputTagList from "./inputTagList";
+import RichTextEditor from "./RichTextEditor";
 
 const TiptapEditor = ({ data }) => {
   const [title, setTitle] = useState(data?.title || "");
@@ -56,45 +57,13 @@ const TiptapEditor = ({ data }) => {
   const [blogImage, setBlogImage] = useState(data?.image || "");
   const [loading, setLoading] = useState(false);
 
+  const [textEditorData, setTextEditorData] = useState(data?.data || "");
+
   const uuid = uuidv4();
-
-  const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
-        heading: true,
-        bulletList: true,
-        orderedList: true,
-        listItem: true,
-      }),
-      Youtube.configure({
-        controls: false,
-        nocookie: true,
-      }),
-      Underline,
-      Link.configure({
-        openOnClick: false,
-      }),
-      TextAlign.configure({
-        types: ["heading", "paragraph"],
-      }),
-      Table.configure({
-        resizable: true,
-      }),
-      TableRow,
-      TableHeader,
-      TableCell,
-    ],
-    content: data?.data || "<p>Hello World! 🌎️</p>",
-  });
-
-  const [savedHtml, setSavedHtml] = useState("");
 
   const handleSave = async () => {
     setLoading(true);
-    if (editor) {
-      const html = editor.getHTML();
-      setSavedHtml(html);
-
+    if (textEditorData) {
       if (data?.slug) {
         const response = await updateBlogByID({
           title,
@@ -114,17 +83,17 @@ const TiptapEditor = ({ data }) => {
           toast("ERROR");
         }
       } else {
-        const response = await insertBlog({
-          title,
-          metaDescription,
-          blogCategory,
-          image: blogImage,
-          tags: tagList,
-          date: blogDate,
-          data: html,
-          userImage: user.image,
-          userName: user.name,
-        });
+        // const response = await insertBlog({
+        //   title,
+        //   metaDescription,
+        //   blogCategory,
+        //   image: blogImage,
+        //   tags: tagList,
+        //   date: blogDate,
+        //   data: html,
+        //   userImage: user.image,
+        //   userName: user.name,
+        // });
         showNoti(response);
       }
     }
@@ -151,7 +120,6 @@ const TiptapEditor = ({ data }) => {
   useEffect(() => {
     console.log(tagList);
   }, [tagList]);
-  if (!editor) return null;
 
   return (
     <div className="mx-auto w-full max-w-7xl">
@@ -197,157 +165,18 @@ const TiptapEditor = ({ data }) => {
       </div>
       {/* date and category */}
 
-      <div className="my-6 flex flex-wrap gap-2 rounded-lg bg-muted p-2">
-        <Toggle
-          pressed={editor.isActive("bold")}
-          onPressedChange={() => editor.chain().focus().toggleBold().run()}
-        >
-          <Bold className="h-4 w-4" />
-        </Toggle>
-
-        <Toggle
-          pressed={editor.isActive("italic")}
-          onPressedChange={() => editor.chain().focus().toggleItalic().run()}
-        >
-          <Italic className="h-4 w-4" />
-        </Toggle>
-
-        <Toggle
-          pressed={editor.isActive("underline")}
-          onPressedChange={() => editor.chain().focus().toggleUnderline().run()}
-        >
-          <UnderlineIcon className="h-4 w-4" />
-        </Toggle>
-
-        <Toggle
-          pressed={editor.isActive("heading", { level: 1 })}
-          onPressedChange={() =>
-            editor.chain().focus().toggleHeading({ level: 1 }).run()
-          }
-        >
-          {/* <Heading className="h-4 w-4" /> */}
-          <span className="ml-1 text-xs">H1</span>
-        </Toggle>
-
-        <Toggle
-          pressed={editor.isActive("heading", { level: 2 })}
-          onPressedChange={() =>
-            editor.chain().focus().toggleHeading({ level: 2 }).run()
-          }
-        >
-          {/* <Heading className="h-4 w-4" /> */}
-          <span className="ml-1 text-xs">H2</span>
-        </Toggle>
-
-        <Toggle
-          pressed={editor.isActive("bulletList")}
-          onPressedChange={() =>
-            editor.chain().focus().toggleBulletList().run()
-          }
-        >
-          <List className="h-4 w-4" />
-        </Toggle>
-
-        <Toggle
-          pressed={editor.isActive("orderedList")}
-          onPressedChange={() =>
-            editor.chain().focus().toggleOrderedList().run()
-          }
-        >
-          <ListOrdered className="h-4 w-4" />
-        </Toggle>
-
-        <Toggle
-          pressed={editor.isActive("link")}
-          onPressedChange={() => {
-            const url = window.prompt("Enter URL");
-            if (url) {
-              editor.chain().focus().setLink({ href: url }).run();
-            }
-          }}
-        >
-          <LinkIcon className="h-4 w-4" />
-        </Toggle>
-
-        <Toggle
-          pressed={editor.isActive({ textAlign: "left" })}
-          onPressedChange={() =>
-            editor.chain().focus().setTextAlign("left").run()
-          }
-        >
-          <AlignLeft className="h-4 w-4" />
-        </Toggle>
-
-        <Toggle
-          pressed={editor.isActive({ textAlign: "center" })}
-          onPressedChange={() =>
-            editor.chain().focus().setTextAlign("center").run()
-          }
-        >
-          <AlignCenter className="h-4 w-4" />
-        </Toggle>
-
-        <Toggle
-          pressed={editor.isActive({ textAlign: "right" })}
-          onPressedChange={() =>
-            editor.chain().focus().setTextAlign("right").run()
-          }
-        >
-          <AlignRight className="h-4 w-4" />
-        </Toggle>
-        <Toggle
-          onPressedChange={() => {
-            const url = window.prompt("Enter YouTube URL");
-            if (url) {
-              editor
-                .chain()
-                .focus()
-                .setYoutubeVideo({
-                  src: url,
-                })
-                .run();
-            }
-          }}
-        >
-          <span className="text-xs">YT</span>
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => {
-            editor
-              .chain()
-              .focus()
-              .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
-              .run();
-          }}
-        >
-          <span className="text-xs">Table</span>
-        </Toggle>
-        <Button onClick={() => editor.chain().focus().addColumnAfter().run()}>
-          Add Column
-        </Button>
-        <Button onClick={() => editor.chain().focus().addRowAfter().run()}>
-          Add Row
-        </Button>
-        <Button onClick={() => editor.chain().focus().deleteTable().run()}>
-          Delete Table
-        </Button>
-      </div>
-
-      <div className="mb-4 rounded-md border-2 bg-white p-1">
-        <EditorContent className="[&>*]:focus:outline-none" editor={editor} />
-      </div>
+      <RichTextEditor data={textEditorData} setData={setTextEditorData} />
 
       <Button disabled={loading} onClick={handleSave}>
         Save
       </Button>
 
-      {savedHtml && (
+      {textEditorData && (
         <div className="prose tiptap mt-4 pt-4">
           <h3 className="mb-2 font-semibold">Preview (Saved HTML):</h3>
           <div
             className="space-y-2 break-all"
-            dangerouslySetInnerHTML={{ __html: savedHtml }}
+            dangerouslySetInnerHTML={{ __html: textEditorData }}
           />
         </div>
       )}

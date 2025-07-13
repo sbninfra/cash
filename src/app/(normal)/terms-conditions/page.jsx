@@ -1,4 +1,5 @@
 import HeroBG from "@/conponents/tripHero";
+import Link from "next/link";
 import React from "react";
 
 const Page = () => {
@@ -99,7 +100,13 @@ function TermsAndConditions() {
         For any questions or concerns about these Terms and Conditions, you may
         contact us at:
         <br />
-        📧 <span className="font-medium">support@yourcompany.com</span>
+        📧{" "}
+        <Link
+          href={"mailto:rishabh@roamifyplanners.in"}
+          className="font-medium text-blue-600"
+        >
+          rishabh@roamifyplanners.in
+        </Link>
       </p>
     </div>
   );

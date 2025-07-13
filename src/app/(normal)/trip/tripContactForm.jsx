@@ -2,8 +2,8 @@
 import Input from "@/conponents/input";
 import Textarea from "@/conponents/textArea";
 import { useState } from "react";
-import { tripFormSubmit } from "../../../../lib/tripHelper";
 import { cn } from "@/lib/utils";
+import { insertContactDetail } from "lib";
 
 function TripContactFrom({ slug }) {
   const [name, setName] = useState("");
@@ -18,7 +18,7 @@ function TripContactFrom({ slug }) {
   const handleSubmit = async (e) => {
     setLoading(true);
     try {
-      await tripFormSubmit({
+      await insertContactDetail({
         name,
         email,
         address,
@@ -87,9 +87,10 @@ function TripContactFrom({ slug }) {
       <SubmitButton onClick={handleSubmit} loading={loading} />
       <input
         type="text"
-        className=" opacity-0 absolute"
+        className="opacity-0 absolute"
         name="slug"
-        value={slug}
+        onChange={(e) => {}}
+        value={slug ?? ""}
       />
     </div>
   );
